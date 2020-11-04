@@ -17,6 +17,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - env:
+          CACHIX_SIGNING_KEY: ${secrets.CACHIX_SIGNING_KEY}
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v11
@@ -27,9 +29,4 @@ jobs:
 #           # Name of a cachix cache to push and pull/substitute
 #           name: lucasew-github
 #           signingKey: '${secrets.CACHIX_SIGNING_KEY}'
-      - run: nix-build | nix-shell -p cachix --run 'cachix push lucasew-github'
-        env:
-          CACHIX_SIGNING_KEY: ${secrets.CACHIX_SIGNING_KEY}  
-          
-
-      
+      - run: nix-build | nix-shell -p cachix --run 'cachix push lucasew-github'  
