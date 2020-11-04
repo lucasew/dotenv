@@ -27,7 +27,7 @@ jobs:
 #           # Name of a cachix cache to push and pull/substitute
 #           name: lucasew-github
 #           signingKey: '${secrets.CACHIX_SIGNING_KEY}'
-      - run: nix-env -i cachix
+      - run: nix-env -i nixpkgs.cachix
       - run: nix-build | cachix push lucasew-github  
         env:
           CACHIX_SIGNING_KEY: ${secrets.CACHIX_SIGNING_KEY}
