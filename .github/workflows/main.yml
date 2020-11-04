@@ -23,5 +23,9 @@ jobs:
       - uses: cachix/install-nix-action@v11
         with:
           nix_path: nixpkgs=channel:nixos-unstable
-      - run: nix-build | nix-shell -p cachix --run 'cachix push lucasew-github'  
+      - uses: cachix/cachix-action@v6
+        with:
+          name: lucasew-github
+          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+      - run: nix-build
         
