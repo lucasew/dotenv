@@ -1,3 +1,4 @@
+
 # This is a basic workflow to help you get started with Actions
 
 name: CI
@@ -11,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-cachix:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
@@ -20,7 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: cachix/install-nix-action@v11
+      - uses: cachix/install-nix-action@v12
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - uses: cachix/cachix-action@v6
@@ -28,4 +29,31 @@ jobs:
           name: lucasew-github
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
       - run: nix-build
-        
+  build-binary:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create relase
+      id: release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          draft: true
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+          stable: 'true'
+          go-version: '1.15.5'
+
+    - run: mkdir build -p && ls && pwd
+    - run: GOOS=windows GOARCH=amd64 go build -o build/dotenv-windows-amd64.exe ./cmd/dotenv/main.go
+    - run: go build -o build/dotenv-linux-amd64 ./cmd/dotenv/main.go
+    - uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: build/dotenv-*
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
