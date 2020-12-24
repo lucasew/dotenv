@@ -1,5 +1,4 @@
-let
-  pkgs = import <nixpkgs> {};
+{pkgs ? import <nixpkgs> {}}:
 in pkgs.buildGoModule rec {
   name = "dotenv";
   version = "0.0.1";
