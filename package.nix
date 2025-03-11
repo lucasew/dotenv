@@ -6,7 +6,7 @@ buildGoModule {
   name = "dotenv";
   version = "0.0.1";
 
-  vendorHash = "sha256-FadCW9CogyX06kWH0MFVr4Z4BnidUp/ccH2Po11zIgE=";
+  vendorHash = "sha256-4KvQh3CMwfsKcuqB/zmjWkHZFQ2kuQMS74TShOH2K9k=";
 
   src = ./.;
 
