@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Install Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
 
       - name: Install Nix
         uses: cachix/install-nix-action@v26
