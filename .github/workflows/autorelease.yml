@@ -10,15 +10,15 @@ jobs:
     steps:
     - name: Create relase
       id: release
-      uses: actions/create-release@v1
+      uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           draft: true
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-    - uses: actions/checkout@v6
-    - uses: actions/setup-go@v6
+    - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+    - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6
       with:
           stable: 'true'
           go-version: '1.25.4'
@@ -26,7 +26,7 @@ jobs:
     - run: mkdir build -p && ls && pwd
     - run: GOOS=windows GOARCH=amd64 go build -o build/dotenv-windows-amd64.exe ./cmd/dotenv/main.go
     - run: go build -o build/dotenv-linux-amd64 ./cmd/dotenv/main.go
-    - uses: svenstaro/upload-release-action@v2
+    - uses: svenstaro/upload-release-action@6b7fa9f267e90b50a19fef07b3596790bb941741 # v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: build/dotenv-*
