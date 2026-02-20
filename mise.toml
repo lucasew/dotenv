@@ -1,0 +1,33 @@
+[tools]
+go = "1.25.5"
+node = "20"
+"npm:@trunkio/launcher" = "1.3.4"
+usage = "1.5.0"
+
+[tasks.install]
+run = "go mod download"
+sources = ["go.mod", "go.sum"]
+
+[tasks.codegen]
+run = "go generate ./..."
+
+[tasks.build]
+run = """
+mkdir -p build
+GOOS=windows GOARCH=amd64 go build -o build/dotenv-windows-amd64.exe ./cmd/dotenv/main.go
+GOOS=linux GOARCH=amd64 go build -o build/dotenv-linux-amd64 ./cmd/dotenv/main.go
+"""
+sources = ["**/*.go"]
+outputs = ["build/*"]
+
+[tasks.test]
+run = "go test -v ./..."
+
+[tasks.lint]
+run = "trunk check"
+
+[tasks.fmt]
+run = "trunk fmt"
+
+[tasks.ci]
+depends = ["lint", "test"]
