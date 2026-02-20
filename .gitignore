@@ -1,2 +1,5 @@
 vendor
 result
+mise
+build/
+.trunk/out/
