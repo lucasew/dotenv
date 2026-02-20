@@ -98,9 +98,14 @@ func main() {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	err := cmd.Start()
-	handleError(err)
+
+	if err := cmd.Start(); err != nil {
+		handleError(err)
+	}
+
 	proc, err := cmd.Process.Wait()
-	handleError(err)
+	if err != nil {
+		handleError(err)
+	}
 	os.Exit(proc.ExitCode())
 }

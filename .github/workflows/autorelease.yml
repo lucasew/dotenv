@@ -14,7 +14,7 @@ jobs:
   autorelease:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -30,7 +30,7 @@ jobs:
         run: mise run codegen
 
       - name: Create PR if changes
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           title: "chore: update generated code" # yamllint disable-line
           body: This PR updates generated code.
