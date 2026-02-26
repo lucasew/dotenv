@@ -26,7 +26,7 @@ jobs:
     - run: mkdir build -p && ls && pwd
     - run: GOOS=windows GOARCH=amd64 go build -o build/dotenv-windows-amd64.exe ./cmd/dotenv/main.go
     - run: go build -o build/dotenv-linux-amd64 ./cmd/dotenv/main.go
-    - uses: svenstaro/upload-release-action@6b7fa9f267e90b50a19fef07b3596790bb941741 # v2
+    - uses: svenstaro/upload-release-action@b98a3b12e86552593f3e4e577ca8a62aa2f3f22b # v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: build/dotenv-*
