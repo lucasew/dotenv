@@ -1,0 +1,6 @@
+[tools]
+go = "1.21.8"
+
+[tasks]
+ci = "go vet ./... && go test ./..."
+test = "go test ./..."

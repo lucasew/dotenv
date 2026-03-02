@@ -5,53 +5,13 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-
-	"github.com/joho/godotenv"
 )
-
-var env  = map[string]string{}
-
-func mergeEnv(m map[string]string) {
-    for k := range m {
-        env[k] = m[k]
-    }
-}
 
 func printHelp() {
     println("dotenv [...params] -- command")
     println("params: ")
     println(" @file.txt load file as dotenv")
     println(" --key=value load variable")
-}
-
-func parseEnvTerm(term string) error {
-    if term[0] == '@' {
-        filename := term[1:]
-        f, err := os.Open(filename)
-        defer f.Close()
-        if err != nil {
-            return err
-        }
-        variables, err := godotenv.Parse(f)
-        if err != nil {
-            return err
-        }
-        mergeEnv(variables)
-        return nil
-    }
-    if strings.HasPrefix(term, "--") {
-        termBody := term[2:]
-        elems := strings.Split(termBody, "=")
-        if len(elems) != 2 {
-            return fmt.Errorf("syntax error near %s", term)
-        }
-        key := elems[0]
-        value := elems[1]
-        env[key] = value
-        return nil
-    }
-    fmt.Printf("warn: ignoring argument '%s'\n", term)
-    return nil
 }
 
 func handleError(err error) {
@@ -64,6 +24,7 @@ func handleError(err error) {
 }
 
 func main() {
+    env := map[string]string{}
     argslen := len(os.Args)
     stripped := make([]string, argslen - 1)
     for i := 1; i < argslen; i++ {
@@ -79,7 +40,7 @@ func main() {
             }
         }
         if !foundDivider {
-            err := parseEnvTerm(stripped[i])
+            err := ParseEnvTerm(stripped[i], env)
             handleError(err)
         } else {
             command = append(command, stripped[i])
@@ -88,7 +49,7 @@ func main() {
     if !foundDivider {
         handleError(fmt.Errorf("missing divider (--)"))
     }
-    parseEnvTerm("@.env")
+    ParseEnvTerm("@.env", env)
     cmd := exec.Command(command[0], command[1:]...)
     cmd.Env = os.Environ() // herdar env do pai
     for k, v := range env {
