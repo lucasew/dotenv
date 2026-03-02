@@ -1,3 +1,5 @@
+// Package main implements the dotenv CLI tool which loads environment variables
+// from files and command-line arguments before executing a command.
 package main
 
 import (
@@ -9,14 +11,17 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// env stores the loaded environment variables.
 var env  = map[string]string{}
 
+// mergeEnv updates the global env map with variables from the provided map.
 func mergeEnv(m map[string]string) {
     for k := range m {
         env[k] = m[k]
     }
 }
 
+// printHelp displays the usage information for the dotenv command.
 func printHelp() {
     println("dotenv [...params] -- command")
     println("params: ")
@@ -24,6 +29,13 @@ func printHelp() {
     println(" --key=value load variable")
 }
 
+// parseEnvTerm parses a single command-line argument to load environment variables.
+//
+// It supports two formats:
+//   - @filename: Loads environment variables from the specified file.
+//   - --key=value: Sets a specific environment variable.
+//
+// Note: The current implementation of --key=value does not support values containing '='.
 func parseEnvTerm(term string) error {
     if term[0] == '@' {
         filename := term[1:]
@@ -54,6 +66,7 @@ func parseEnvTerm(term string) error {
     return nil
 }
 
+// handleError prints the error message and help text, then exits the program with status code 1 if an error occurs.
 func handleError(err error) {
     if err == nil {
         return
@@ -63,6 +76,11 @@ func handleError(err error) {
     os.Exit(1)
 }
 
+// main is the entry point of the application.
+//
+// It parses command-line arguments to load environment variables,
+// loads the default .env file (which overrides CLI arguments),
+// and finally executes the specified command with the populated environment.
 func main() {
     argslen := len(os.Args)
     stripped := make([]string, argslen - 1)
@@ -88,6 +106,7 @@ func main() {
     if !foundDivider {
         handleError(fmt.Errorf("missing divider (--)"))
     }
+    // Load .env file. This overrides any conflicting variables set via CLI arguments.
     parseEnvTerm("@.env")
     cmd := exec.Command(command[0], command[1:]...)
     cmd.Env = os.Environ() // herdar env do pai
