@@ -49,7 +49,7 @@ func main() {
 	if !foundDivider {
 		handleError(fmt.Errorf("missing divider (--)"))
 	}
-	ParseEnvTerm(env, "@.env")
+	_ = ParseEnvTerm(env, "@.env")
 	cmd := exec.Command(command[0], command[1:]...)
 	cmd.Env = os.Environ() // herdar env do pai
 	for k, v := range env {
