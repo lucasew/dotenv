@@ -1,0 +1,1 @@
+- 2024-05-24: Always explicitly check for expected errors like os.IsNotExist when loading optional files rather than silently swallowing the error.
