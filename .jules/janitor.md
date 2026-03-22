@@ -1,0 +1,1 @@
+- 2026-03-22: Always ensure errors are checked before calling defer on returned pointers like os.File to prevent panics.
