@@ -24,8 +24,8 @@ jobs:
           go-version: '1.25.5'
 
     - run: mkdir build -p && ls && pwd
-    - run: GOOS=windows GOARCH=amd64 go build -o build/dotenv-windows-amd64.exe ./cmd/dotenv/main.go
-    - run: go build -o build/dotenv-linux-amd64 ./cmd/dotenv/main.go
+    - run: GOOS=windows GOARCH=amd64 go build -o build/dotenv-windows-amd64.exe ./cmd/dotenv
+    - run: go build -o build/dotenv-linux-amd64 ./cmd/dotenv
     - uses: svenstaro/upload-release-action@b98a3b12e86552593f3e4e577ca8a62aa2f3f22b # v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
