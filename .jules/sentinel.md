@@ -1,0 +1,1 @@
+- 2024-03-29: [Medium] Missing length checks before accessing string indices can lead to out-of-bounds panics.
