@@ -8,8 +8,6 @@ buildGoModule {
 
   vendorHash = "sha256-4KvQh3CMwfsKcuqB/zmjWkHZFQ2kuQMS74TShOH2K9k=";
 
-  subPackages = [ "cmd/dotenv" ];
-
   src = ./.;
 
   meta = with lib; {

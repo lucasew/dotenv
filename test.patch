@@ -1,0 +1,10 @@
+--- a/package.nix
++++ b/package.nix
+@@ -6,6 +6,8 @@
+   version = "0.0.1";
+
+   vendorHash = "sha256-4KvQh3CMwfsKcuqB/zmjWkHZFQ2kuQMS74TShOH2K9k=";
++
++  subPackages = [ "cmd/dotenv" ];
+
+   src = ./.;
